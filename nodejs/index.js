@@ -24,17 +24,17 @@ var hoistVar = 'hoist js with var';
 print();
 
 function print () { // function statement (hoisted)
-  console.log('from the function statement')
+  // console.log('from the function statement')
 }
 
 let print2 = function () { // function expression
-  console.log('from the function expression')
+  // console.log('from the function expression')
 }
 
 print2();
 
 let static = (function () { //immediately-invoked function expression
-  console.log('from the function invocation');
+  // console.log('from the function invocation');
 
   return {};
 })();
@@ -49,7 +49,7 @@ let p1 = person;
 let p2 = person;
 
 p1.firstName = 'fred'; //p2 is also fred
-console.log(p2.firstName);
+// console.log(p2.firstName);
 
 function Person () { // object constructor
   this.firstName = null;
@@ -60,7 +60,7 @@ let p3 = new Person();
 let p4 = new Person();
 
 p3.firstName = 'fred'; //p4 is null
-console.log(p4.firstName);
+// console.log(p4.firstName);
 
 let p5 = Object.create({});
 let p6 = Object.create({});
@@ -74,10 +74,76 @@ p6.firstName = 'marc';
 let p7 = Object.create(p5); //referential copy - 1-way binding
 let p8 = Object.create(p6);
 
-console.log(p7.firstName);
-console.log(p8.firstName);
+// console.log(p7.firstName);
+// console.log(p8.firstName);
 
-p7.firstName = 'brett'; //Does not change p5
+// p7.firstName = 'brett'; //Does not change p5
 
-console.log(p5.firstName);
-console.log(p3.firstName);
+// console.log(p5.firstName);
+// console.log(p3.firstName);
+
+// closure
+function CountingCrows() {
+  let counter = 0;
+
+  return function () { // object
+    counter += 1;
+    return counter;
+  }
+}
+
+function WritingCrows() {
+  let c = CountingCrows();
+
+  // c += 1;
+  c();
+  //console.log(c); // 1
+  //console.log(counter); // undefined
+  // console.log(c()); // 2
+}
+
+WritingCrows();
+
+// prototype
+function Animal() {
+  this.talk = function () {
+    console.log('talking gibberish');
+  }
+}
+
+function Mammal() {
+  this.walk = function () {
+    console.log('walking the path');
+  }
+}
+
+function Dog() {
+  //Mammal.call(this);
+  this.wag = function () {
+    console.log('wagging my tail');
+  }
+}
+
+let d = new Dog();
+// d.wag();
+
+// Dog.prototype.walk = function () {
+//   console.log('not mammal walking');
+// }
+
+// Dog.prototype.mammal = new Mammal();
+
+// d.walk();
+// d.mammal.walk();
+
+// constructor
+// Dog.constructor = new Mammal(); // what does this do?
+// Dog.prototype.constructor = Mammal; // constructor to constructor
+Dog.prototype = Object.create(new Mammal()); // object to object
+
+let d1 = new Dog();
+
+d1.wag();
+d1.walk();
+
+console.log(Dog);
