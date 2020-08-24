@@ -16,7 +16,7 @@ import { SecondModule } from './second/second.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    //FormsModule,
+    // FormsModule,
     SecondModule
   ],
   providers: [],
